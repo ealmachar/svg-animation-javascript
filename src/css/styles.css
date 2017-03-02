@@ -1,0 +1,193 @@
+#window{
+
+width: 100%;
+height: 100%;
+
+}
+
+body{
+margin: 0px;
+background-color: grey;
+}
+
+.background{
+
+transition: opacity 0.5s
+}
+
+.segment{
+
+}
+
+
+.quadrant{
+	position: absolute;
+
+	width: 50%;
+	height: 50%;
+
+	pointer-events: none;
+	
+	transition: width 0.5s, height 0.5s;
+}
+
+#quadrant1{
+	top: 0px;
+	left: 0px;
+}
+
+#quadrant2{
+	top: 50%;
+	left: 0px;
+}
+
+#quadrant3{
+	top: 50%;
+	left: 50%;
+}
+
+#quadrant4{
+	top: 0px;
+	left: 50%;
+}
+
+.descriptionContainer{
+	position: absolute;
+	width: 50%;
+	height: 50%;
+	pointer-events: none;
+	
+	font-family: 'Roboto', sans-serif;
+}
+
+#descont1{
+	top: 0px;
+	left: 0px;
+}
+
+#descont2{
+	top: 50%;
+	left: 0px;
+}
+
+#descont3{
+	top: 50%;
+	left: 50%;
+	width: 45%;
+}
+
+#title3{
+	padding-left: 90px;
+}
+
+#descont4{
+	top: 0px;
+	left: 50%;
+	width: 45%;
+}
+
+.descriptionBody{
+	position: relative;
+
+	top: 50px;
+	
+	text-align: justify;
+	
+	padding: 60px 0px 0px 60px;
+	
+
+	opacity: 0;
+	
+	transition: top 0.25s, opacity 0.25s;
+}
+
+.descriptionBody.show{
+	opacity: 1;
+	top: 0px;
+}
+
+.descriptionText{
+
+
+}
+
+.descriptionTitle{
+	font-size: 20px;
+	padding-bottom: 40px;
+}
+
+
+.descriptionInBodyLine{
+	height: 10px;
+	width: 55%;
+	position: absolute;
+	top: 100px;
+}
+
+table{
+	margin-top: 50px;
+}
+
+td{
+	padding-left: 10px;
+}
+
+.block{
+
+	background-color: lightgray;
+	opacity: 0;
+
+
+}
+
+#block1{
+	float: right;
+	
+	-webkit-shape-outside: polygon(0 0, 60% 100%, 100% 100%, 100% 0);
+	shape-outside: polygon(0 0, 60% 100%, 100% 100%, 100% 0);
+	
+	-webkit-clip-path: polygon(0 0, 60% 100%, 100% 100%, 100% 0);
+	clip-path: polygon(0 0, 60% 100%, 100% 100%, 100% 0);
+	
+	-webkit-shape-margin: 0px;
+	shape-margin: 0px;
+}
+
+#block2{
+	float: right;
+	
+	-webkit-shape-outside: polygon(60% 0, 0 100%, 100% 100%, 100% 0);
+	shape-outside: polygon(60% 0, 0 100%, 100% 100%, 100% 0);
+	
+	-webkit-clip-path: polygon(60% 0, 0 100%, 100% 100%, 100% 0);
+	clip-path: polygon(60% 0, 0 100%, 100% 100%, 100% 0);
+	
+	-webkit-shape-margin: 0px;
+	shape-margin: 0px;
+}
+
+#block3{
+	float: left;
+	
+	-webkit-shape-outside: polygon(0 0, 0 100%, 100% 100%, 20% 0);
+	shape-outside: polygon(0 0, 0 100%, 100% 100%, 20% 0);
+	
+	-webkit-clip-path: polygon(0 0, 0 100%, 100% 100%, 20% 0);
+	clip-path: polygon(0 0, 0 100%, 100% 100%, 20% 0);
+	
+	-webkit-shape-margin: 0px;
+	shape-margin: 0px;
+}
+
+#block4{
+	float: left;
+	
+	-webkit-shape-outside: polygon(0 0, 0 100%, 30% 100%, 100% 0);
+	shape-outside: polygon(0 0, 0 100%, 30% 100%, 100% 0);
+	
+	-webkit-clip-path: polygon(0 0, 0 100%, 30% 100%, 100% 0);
+	clip-path: polygon(0 0, 0 100%, 30% 100%, 100% 0);
+	
+	-webkit-shape-margin: 0px;
+	shape-margin: 0px;
+}

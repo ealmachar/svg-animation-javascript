@@ -1,0 +1,145 @@
+
+<html>
+<head>
+	<link rel="stylesheet" href="src/css/styles.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+	
+	<script src="src/js/jquery.js"></script>
+	<script>
+	/*
+	$('svg').attr({
+		version: "1.1",
+		baseProfile: "full",
+		xmlns: "http://www.w3.org/2000/svg",
+		xmlns:xlink: "http://www.w3.org/1999/xlink",
+		xmlns:ev: "http://www.w3.org/2001/xml-events"
+	});*/
+	</script>
+</head>
+
+<body>
+	<svg id="window">
+		<defs>
+			<pattern id="img1" patternUnits="userSpaceOnUse" width="960" height="540">
+				<image xlink:href="src/images/miami.jpg" x="0" y="0" width="960" height="540"></image>
+			</pattern>
+			<pattern id="img2" patternUnits="userSpaceOnUse" width="960" height="540">
+				<image xlink:href="src/images/dallas.jpg" x="0" y="0" width="960" height="540"></image>
+			</pattern>
+			<pattern id="img3" patternUnits="userSpaceOnUse" width="960" height="540">
+				<image xlink:href="src/images/san francisco.jpg" x="0" y="0" width="960" height="540"></image>
+			</pattern>
+			<pattern id="img4" patternUnits="userSpaceOnUse" width="960" height="540">
+				<image xlink:href="src/images/seattle.jpg" x="0" y="0" width="960" height="540"></image>
+			</pattern>
+			<pattern id="img5" patternUnits="userSpaceOnUse" width="960" height="540">
+				<image xlink:href="src/images/chicago.jpg" x="0" y="0" width="960" height="540"></image>
+			</pattern>
+			<pattern id="img6" patternUnits="userSpaceOnUse" width="960" height="540">
+				<image xlink:href="src/images/new york.jpg" x="0" y="0" width="960" height="540"></image>
+			</pattern>
+		</defs>
+		<path id="background1" class="background" d="" fill="url('#img1')" stroke="white" stroke-width="2"></path>
+		<path id="background2" class="background" d="" fill="url('#img2')" stroke="white" stroke-width="2"></path>
+		<path id="background3" class="background" d="" fill="url('#img3')" stroke="white" stroke-width="2"></path>
+		<path id="background4" class="background" d="" fill="url('#img4')" stroke="white" stroke-width="2"></path>
+		<path id="background5" class="background" d="" fill="url('#img5')" stroke="white" stroke-width="2"></path>
+		<path id="background6" class="background" d="" fill="url('#img6')" stroke="white" stroke-width="2"></path>
+
+		<path id="radial1" class="segment" d="" fill="url('#img1')" stroke="white" stroke-width="2"></path>
+		<path id="radial2" class="segment" d="" fill="url('#img2')" stroke="white" stroke-width="2"></path>
+		<path id="radial3" class="segment" d="" fill="url('#img3')" stroke="white" stroke-width="2"></path>
+		<path id="radial4" class="segment" d="" fill="url('#img4')" stroke="white" stroke-width="2"></path>
+		<path id="radial5" class="segment" d="" fill="url('#img5')" stroke="white" stroke-width="2"></path>
+		<path id="radial6" class="segment" d="" fill="url('#img6')" stroke="white" stroke-width="2"></path>
+	</svg>
+
+	<svg id="quadrant1" class="quadrant">
+		<path id="des1b" class="descriptionBackground" d="" fill="white"></path>
+		<path id="des11" class="descriptionBorder" d="" fill="white" stroke="white" stroke-width="2"></path>
+		<path id="des12" class="descriptionBorder" d="" fill="white" stroke="white" stroke-width="2"></path>
+		<path id="des13" class="descriptionBorder" d="" fill="white" stroke="white" stroke-width="2"></path>
+		<path id="des14" class="descriptionBorder" d="" fill="white" stroke="white" stroke-width="2"></path>
+		<path id="des1a" class="descriptionBorder" d="" fill="none" stroke="white" stroke-width="2"></path>
+	</svg>
+
+	<svg id="quadrant2" class="quadrant">
+		<path id="des2b" class="descriptionBackground" d="" fill="white"></path>
+		<path id="des21" class="descriptionBorder" d="" fill="white" stroke="white" stroke-width="2"></path>
+		<path id="des22" class="descriptionBorder" d="" fill="white" stroke="white" stroke-width="2"></path>
+		<path id="des23" class="descriptionBorder" d="" fill="white" stroke="white" stroke-width="2"></path>
+		<path id="des24" class="descriptionBorder" d="" fill="white" stroke="white" stroke-width="2"></path>
+		<path id="des2a" class="descriptionBorder" d="" fill="none" stroke="white" stroke-width="2"></path>
+	</svg>
+
+	<svg id="quadrant3" class="quadrant">
+		<path id="des3b" class="descriptionBackground" d="" fill="white"></path>
+		<path id="des31" class="descriptionBorder" d="" fill="white" stroke="white" stroke-width="2"></path>
+		<path id="des32" class="descriptionBorder" d="" fill="white" stroke="white" stroke-width="2"></path>
+		<path id="des33" class="descriptionBorder" d="" fill="white" stroke="white" stroke-width="2"></path>
+		<path id="des34" class="descriptionBorder" d="" fill="white" stroke="white" stroke-width="2"></path>
+		<path id="des3a" class="descriptionBorder" d="" fill="none" stroke="white" stroke-width="2"></path>
+	</svg>
+
+	<svg id="quadrant4" class="quadrant">
+		<path id="des4b" class="descriptionBackground" d="" fill="white"></path>
+		<path id="des41" class="descriptionBorder" d="" fill="white" stroke="white" stroke-width="2"></path>
+		<path id="des42" class="descriptionBorder" d="" fill="white" stroke="white" stroke-width="2"></path>
+		<path id="des43" class="descriptionBorder" d="" fill="white" stroke="white" stroke-width="2"></path>
+		<path id="des44" class="descriptionBorder" d="" fill="white" stroke="white" stroke-width="2"></path>
+		<path id="des4a" class="descriptionBorder" d="" fill="none" stroke="white" stroke-width="2"></path>
+	</svg>
+
+	<div id="descont1" class="descriptionContainer">
+		<div id="desbody1" class="descriptionBody">
+			<div id="block1" class="block"></div>		
+			<div id="title1" class="descriptionTitle"></div>
+			<svg class="descriptionInBodyLine"><path id="des15" d="" fill="white" stroke="white" stroke-width="2"></path></svg>
+			<div id="text1"class="descriptionText"></div>
+			<table>
+				<tr><td>Incorporated</td><td id="incorp1"></td></tr>
+				<tr><td>Metropolitan Population</td><td id="pop1"></td></tr>
+			</table>
+		</div>
+	</div>
+	<div id="descont2" class="descriptionContainer">
+		<div id="desbody2" class="descriptionBody">
+			<div id="block2" class="block"></div>		
+			<div id="title2" class="descriptionTitle"></div>
+			<svg class="descriptionInBodyLine"><path id="des25" d="" fill="white" stroke="white" stroke-width="2"></path></svg>
+			<div id="text2"class="descriptionText"></div>
+			<table>
+				<tr><td>Incorporated</td><td id="incorp2"></td></tr>
+				<tr><td>Metropolitan Population</td><td id="pop2"></td></tr>
+			</table>
+		</div>
+	</div>
+	<div id="descont3" class="descriptionContainer">
+		<div id="desbody3" class="descriptionBody">
+			<div id="block3" class="block"></div>		
+			<div id="title3" class="descriptionTitle"></div>
+			<svg class="descriptionInBodyLine"><path id="des35" d="" fill="white" stroke="white" stroke-width="2"></path></svg>
+			<div id="text3"class="descriptionText"></div>
+			<table>
+				<tr><td>Incorporated</td><td id="incorp3"></td></tr>
+				<tr><td>Metropolitan Population</td><td id="pop3"></td></tr>
+			</table>
+		</div>
+	</div>
+	<div id="descont4" class="descriptionContainer">
+		<div id="desbody4" class="descriptionBody">
+			<div id="block4" class="block"></div>		
+			<div id="title4" class="descriptionTitle"></div>
+			<svg class="descriptionInBodyLine"><path id="des45" d="" fill="white" stroke="white" stroke-width="2"></path></svg>
+			<div id="text4"class="descriptionText"></div>
+			<table>
+				<tr><td>Incorporated</td><td id="incorp4"></td></tr>
+				<tr><td>Metropolitan Population</td><td id="pop4"></td></tr>
+			</table>
+		</div>
+	</div>
+</body>
+<script src="src/js/descriptions.js"></script>
+<script src="src/js/main.js"></script>
+
+</html>
