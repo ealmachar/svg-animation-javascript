@@ -1,4 +1,4 @@
-# svg animation javascript
+# svg site
 
 Animating SVG's with Javascript and CSS Transitions
 
