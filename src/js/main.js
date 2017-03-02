@@ -26,7 +26,12 @@ var radiusStep = bradius - radius;
 var startx = window.innerWidth/2;
 var starty = window.innerHeight/2;
 
+var clipWidth;
 
+var tables = $('.qudrantTable');
+
+// Firefox 1.0+
+var isFirefox = typeof InstallTrigger !== 'undefined';
 
 function init(){
 	
@@ -53,16 +58,16 @@ function init(){
 	setSegments();
 	setImages();
 	setClippers();
+	hideTables();
 	
 	initDescriptions();
 	initDescriptionBorders('1');
 	initDescriptionBorders('2');
 	initDescriptionBorders('3');
 	initDescriptionBorders('4');
+	initDescriptionBorders('5');
 	setDescriptionAnimations();
 }
-
-init();
 
 window.onresize = function(){
 
@@ -70,11 +75,13 @@ window.onresize = function(){
 	setSegments();
 	setImages();
 	setClippers();
+	hideTables();
 	
 	initDescriptionBorders('1');
 	initDescriptionBorders('2');
 	initDescriptionBorders('3');
 	initDescriptionBorders('4');
+	initDescriptionBorders('5');
 	setDescriptionAnimations();
 }
 
@@ -106,6 +113,16 @@ function setSizes(){
 
 	startx = window.innerWidth/2;
 	starty = window.innerHeight/2;
+}
+
+function hideTables(){
+
+	if(window.innerWidth < 1200 || (window.innerWidth < 1400 && isFirefox)){
+		tables.hide();
+	}
+	else{
+		tables.show();
+	}
 }
 
 // initial draw for foreground and background radial
@@ -145,39 +162,86 @@ function setSegments(){
 // align images embedded in the SVG
 function setImages(){
 	var images = document.getElementsByTagName('pattern');
-	var dom, offset;
+	var dom, offset, id, x, y;
+	var imageWidth = 960;
 	for(var i = 0; i < images.length; i++){
 		dom = images[i];
+		id = parseInt(images[i].id.charAt(3));
+
+		
 		offset = 0;
 		
-		if(i == 1 )
-			offset -= window.innerWidth/3;// + (50 * (window.innerWidth/3) / window.innerWidth);
-		else if(i == 4)
-			offset -= window.innerWidth/3;// + 180;
+		
+		switch(id){
+			case 1:
+				x = window.innerWidth/2;
+				y = window.innerHeight/2;
+			break;
 			
-		dom.setAttribute('x', window.innerWidth/2 + offset);
-		dom.setAttribute('y', window.innerHeight/2);
+			case 2:
+				offset -= imageWidth/2
+				x = window.innerWidth/2 + offset;
+				y = window.innerHeight/2;
+			break;
+			
+			case 3:
+				x = -250;
+				if(window.innerWidth/2 > (imageWidth + x)){
+					x = -Math.max(imageWidth - window.innerWidth/2, 0);
+				}
+				
+				y = window.innerHeight/2;
+			break;
+			
+			case 4:
+				x = -250;
+				if(window.innerWidth/2 > (imageWidth + x)){
+					x = -Math.max(imageWidth - window.innerWidth/2, 0);
+				}
+
+				y = 0;
+			break;
+			
+			case 5:
+				offset -= imageWidth/2;
+				x = window.innerWidth/2 + offset;
+				y = window.innerHeight/2;
+			break;
+			
+			case 6:
+				x = window.innerWidth/2;
+				y = window.innerHeight/2;
+			break;
+		}
+
+			
+		
+			
+		dom.setAttribute('x', x);
+		dom.setAttribute('y', y);
 	}
 }
 
-var clipWidth;
+
 
 // set dimensions of invisible clip boxes used for "slanting" text
 // through the css property "shape-outside" and "clip-path"
 function setClippers(){
 	var clip = document.getElementsByClassName('block');
-	var height = window.innerHeight/3;
+	var height = window.innerHeight/2.5;
 	var width, mod;
 	
 	clipWidth = (Math.tan(Math.PI/6)*height) * (1/0.6);
-	
+
 	for(var i = 0; i < clip.length; i++){
-		if(i < 2)
-			mod = 0.6;
+		if(i == 0)
+			mod = 0.7;
+		else if(i == 1)
+			mod = 0.65;
 		else if(i == 2)
 			mod = 0.8;
 		else
-			mod = 0.7;
+			mod = 0.85;
 		width = (Math.tan(Math.PI/6)*height) * (1/mod);
 		clip[i].style.height = height + 'px';
 		clip[i].style.width = width + 'px';
@@ -284,9 +348,19 @@ function initDescriptionBorders(quadrant){
 	
 	if(quadrant == '1' || quadrant == '4'){
 		corner2y = window.innerHeight/2 - Math.sin(arc2)*radius - Math.sin(arc3) * hyp;
+		
+		d5 = 'M ' + 0 + ' ' + 5;
+		l5 = ' l ' + (corner3x - left - padding) + ' ' + 0;
 	}
 	else if(quadrant == '2' || quadrant == '3'){
 		corner2y = Math.sin(arc2)*radius + Math.sin(arc3) * hyp;
+		
+		d5 = 'M ' + 0 + ' ' + 5;
+		l5 = ' l ' + (corner3x - left - padding) + ' ' + 0;
+	}
+	else if(quadrant == '5'){
+		d5 = 'M ' + 0 + ' ' + 5;
+		l5 = ' l ' + 330 + ' ' + 0;
 	}
 
 
@@ -359,13 +433,26 @@ function initDescriptionBorders(quadrant){
 		d4 = 'M ' + (rightOffset - corner3x) + ' ' + top;
 		l4 = ' L ' + (rightOffset - left) + ' ' + top;
 	}
+	else if(quadrant == '5'){
+		rightOffset = 450;
+		d1 = 'M ' + left + ' ' + top;
+		l1 = ' l ' + 0 + ' ' + bottom;
+		
+		d2 = 'M ' + left + ' ' + (top + bottom);
+		l2 = ' l ' + (rightOffset - left*2) + ' ' + 0;
+		
+		d3 = 'M ' + (rightOffset - left) + ' ' + (bottom+top);
+		l3 = ' L ' + (rightOffset - left) + ' ' + top;
+		
+		d4 = 'M ' + (rightOffset - left) + ' ' + top;
+		l4 = ' L ' + left + ' ' + top;
+		
+		da = '';
+		a = '';
+	}
 	
 	body += d1 + l1 + l2 + a + l3 + l4;
-	
-			
-	d5 = 'M ' + 0 + ' ' + 5;
-	l5 = ' l ' + (window.innerWidth) + ' ' + 0;
-	
+
 	description.des1.obj.setAttribute('d', d1 + l1);
 	description.des2.obj.setAttribute('d', d2 + l2);
 	description.desa.obj.setAttribute('d', da + a);
@@ -416,7 +503,7 @@ function setDescriptionAnimations(){
 function initDescriptions(){
 	var des1, des2, desa, des3, des4, des5, desa, desback, desbody;
 	
-	for(var quadrant = 1; quadrant <= 4; quadrant++){
+	for(var quadrant = 1; quadrant <= 5; quadrant++){
 		des1 = document.getElementById('des' + quadrant + '1');
 		des2 = document.getElementById('des' + quadrant + '2');
 		desa = document.getElementById('des' + quadrant + 'a');
@@ -473,44 +560,56 @@ function initDescriptions(){
 
 
 function descriptionShow(show, event){
-
+	
 	var quadrant = false;
 	var target = event.target.id;
 	var num = parseInt(target.charAt(target.length-1));
 	var city;
+	var up;
 
 	switch(num){
 		case 1:
 			quadrant = 4;
 			city = cities.miami;
+			up = '0px';
 		break;
 		
 		case 2:
 			quadrant = 3;
 			city = cities.dallas;
+			up = '0px';
 		break;
 		
 		case 3:
 			quadrant = 1;
 			city = cities.sanfrancisco;
+			up = '0px';
 		break;
 		
 		case 4:
 			quadrant = 2;
 			city = cities.seattle;
+			up = '50%';
 		break;
 		
 		case 5:
 			quadrant = 1;
 			city = cities.chicago;
+			up = '50%';
 		break;
 		
 		case 6:
 			quadrant = 3;
 			city = cities.newyork;
+			up = '50%';
 		break;
 	}
 	
+	if(window.innerWidth < 1000 || (window.innerWidth < 1200 && isFirefox)){
+		quadrant = 5;
+		$('#descont5').css('top', up);
+		$('#quadrant5').css('top', up);
+	}
 
 	$('#title' + quadrant).text(city.title)
 	$('#text' + quadrant).text(city.text)
@@ -585,3 +684,5 @@ function calcLargearc(phi, theta){
 	var result = difference(phi, theta) < Math.PI ? 1 : 0;
 	return result;
 }
+
+init();
