@@ -10,8 +10,7 @@ var numSegments = 6;
 var segmentSize = (2 * Math.PI) / numSegments;
 
 // used for animation, going down from max to zero
-var max = 200;
-var progress = max;
+var max = 15;
 
 // "background radius" of background segments
 var bradius = Math.sqrt( Math.pow(window.innerWidth/2, 2) + Math.pow(window.innerHeight/2, 2));
@@ -30,35 +29,30 @@ var clipWidth;
 
 var tables = $('.qudrantTable');
 
+// toggles used for animation locks
+var city = null;
+var exhibit = false;
+var exhibitPreDelay = false;
+
+var strokeColor = 'white';
+var fillColor = 'rgba(255, 255, 255, 1)';
+var backgroundOpacity = '0.5'
+var exhibitBackgroundColor = 'rgba(255, 255, 255, ' + backgroundOpacity + ')';
+var strokeWidth = 2;
+
 // Firefox 1.0+
 var isFirefox = typeof InstallTrigger !== 'undefined';
 
 function init(){
 	
-	
-	var elements = document.getElementsByClassName('segment');
-
-	for(var i = 0; i < elements.length; i++){
-		var dom = elements[i];
-
-		dom.onmouseenter = function(event){
-			launch(event, 'expand');
-			descriptionShow(true, event);
-		}
-		
-		dom.onmouseleave = function(event){
-			launch(event, 'contract');
-			descriptionShow(false, event);
-		}
-	}
-	
-
-	
+	eventBindings()
 	initSegments()
+	
 	setSegments();
 	setImages();
 	setClippers();
 	hideTables();
+	setStyles();
 	
 	initDescriptions();
 	initDescriptionBorders('1');
@@ -66,7 +60,14 @@ function init(){
 	initDescriptionBorders('3');
 	initDescriptionBorders('4');
 	initDescriptionBorders('5');
+	initDescriptionBorders('6');
+}
+
+window.onready = function(){
 	setDescriptionAnimations();
+//	setTimeout(function(){
+	$('#screen').css('opacity', 0);
+//	}, 1000);
 }
 
 window.onresize = function(){
@@ -82,7 +83,105 @@ window.onresize = function(){
 	initDescriptionBorders('3');
 	initDescriptionBorders('4');
 	initDescriptionBorders('5');
+	initDescriptionBorders('6');
 	setDescriptionAnimations();
+}
+
+function eventBindings(){
+	
+	$('.segment').mouseover(function(event){
+		anim(event, 'expand')
+		descriptionShow(true, false, true, event);
+	})
+	.mouseleave(function(event){
+		anim(event, 'contract')
+		descriptionShow(false, false, true, event);
+	})
+	.click(function(event){
+			
+		if(!exhibit && !exhibitPreDelay){
+			
+			exhibitPreDelay = true;
+			
+			anim(event, 'contract')
+			descriptionShow(true, true, false, event);
+			
+			$('#desbody6')
+			.addClass('phase1')
+			
+			setTimeout(function(){
+				
+				$('#desbody6')
+				.addClass('phase2')
+				
+				$('#thumb1').trigger('click');
+				
+				setTimeout(function(){
+					
+					$('#desbody6container, #des6imagebody, #des6imagebodycontents')
+					.addClass('phase3')
+					
+					showSvg(descriptions[6], true);
+					
+					exhibit = true;
+					
+				}, 500)
+				
+			}, 500);
+			
+		}
+	});
+	
+	$('#xbutton').click(function(event){
+
+		if(exhibit){
+
+			$('#desbody6container, #des6imagebody, #des6imagebodycontents')
+			.removeClass('phase3');
+			
+			descriptionShow(false, true, true, event);	
+			
+			setTimeout(function(){
+				$('#desbody6')
+				.removeClass('phase2');
+
+				setTimeout(function(){
+					$('#desbody6')
+					.removeClass('phase1');
+					
+					$('.segment')
+					.css({
+						pointerEvents: 'auto',
+						opacity: 1
+					});
+					
+					exhibit = false;
+					exhibitPreDelay = false;
+				}, 500);
+
+			}, 500);
+		}
+		
+	})
+
+	$('.thumb').mouseenter(function(){
+		$(this).css({
+			width: '160px',
+			height: '160px',
+			top: '-40px'
+		});
+	})
+	.mouseleave(function(){
+		$(this).css({
+			width: '80px',
+			height: '80px',
+			top: '0px'
+		});
+	})
+	.click(function(event){
+		var image = $(this).css('backgroundImage');
+		$('#des6imagedisplay').css('backgroundImage', image)
+	});
 }
 
 function initSegments(){
@@ -103,6 +202,10 @@ function initSegments(){
 		};
 		segments.push(segment)
 	}
+}
+
+function setStyles(){
+	$('#desbody6').css('backgroundColor', exhibitBackgroundColor)
 }
 
 // called for window resize;
@@ -152,9 +255,14 @@ function setSegments(){
 
 		bx = getx(theta, bradius) - blx;
 		by = gety(theta, bradius) - bly;
+		
+		radial.style.stroke = strokeColor;
+		radial.style.strokeWidth = strokeWidth;
 		formRadialCircle(radial, startx, starty, lx, ly, x, y, radius, 0, 0, 1 );
 		
 		background.style.opacity = '0.1';
+		background.style.stroke = strokeColor;
+		background.style.strokeWidth = strokeWidth;
 		formRadialCircle(background, startx, starty, blx, bly, bx, by, bradius, 0, 0, 1 );
 	}
 }
@@ -248,23 +356,23 @@ function setClippers(){
 	}
 }
 
+
 // launch function for the radial animations
-function launch(event, method){
+function anim(event, method){
 	var target = event.target.id.substring(6, event.target.id.length);
 	var progress = max;
+
 	if(method == 'expand'){
 		segments[target-1].background.style.opacity = 1;
 		segments[target-1].radial.style.opacity = 0.1;
 	}
 	else{
 		segments[target-1].background.style.opacity = 0.1;
-		segments[target-1].radial.style.opacity = 1;
+		if(!exhibitPreDelay){
+			segments[target-1].radial.style.opacity = 1;
+		}
 	}
-	anim(event, method, target, progress);
-}
-
-// animate
-function anim(event, method, target, progress){
+	
 	var interval = setInterval(function(){
 		
 		var offset = segments[target-1].offset;
@@ -274,7 +382,7 @@ function anim(event, method, target, progress){
 			segments[target-1].anim = method;
 
 		}
-		else if(segments[target-1].anim != method){
+		else if(segments[target-1].anim != method &&segments[target-1].anim != null){
 			clearInterval(interval);
 		}
 
@@ -300,9 +408,9 @@ function anim(event, method, target, progress){
 		var x = getx(theta, r) - lx;
 		var y = gety(theta, r) - ly;
 		
-		var largearc = calcLargearc(phi, theta);
+		var el = event.srcElement || event.target;
 		
-		formRadialCircle(event.srcElement, startx, starty, lx, ly, x, y, r, 0, 0, 1);
+		formRadialCircle(el, startx, starty, lx, ly, x, y, r, 0, 0, 1);
 	
 		if(progress > 0){
 			progress --;
@@ -311,13 +419,13 @@ function anim(event, method, target, progress){
 			clearInterval(interval);
 			segments[target-1].anim = null;
 		}
-	},1);
+	},15);
 }
 
 
 function initDescriptionBorders(quadrant){
 	
-	var description = descriptions[quadrant];
+	var description;
 	
 	var padding = 30;
 
@@ -346,6 +454,16 @@ function initDescriptionBorders(quadrant){
 	corner2x = window.innerWidth/2 - Math.cos(arc2)*radius - Math.cos(arc3) * hyp;
 	corner3x = window.innerWidth/2 - (window.innerHeight/2 - padding) / Math.tan(arc2) - Math.cos(arc3) * hyp;
 	
+	
+	// l1, l2, l3, l4, are the 4 straight borders
+	// a is the arc in the corner
+	// l5 is the line inside the description, not animated
+	var d1, d2, d3, d4, d5, da;
+	var l1, l2, l3, l4, l5, a;
+
+	var rightOffset = window.innerWidth/2;
+	
+
 	if(quadrant == '1' || quadrant == '4'){
 		corner2y = window.innerHeight/2 - Math.sin(arc2)*radius - Math.sin(arc3) * hyp;
 		
@@ -363,12 +481,7 @@ function initDescriptionBorders(quadrant){
 		l5 = ' l ' + 330 + ' ' + 0;
 	}
 
-
-	var d1, d2, d3, d4, d5, da;
-	var l1, l2, l3, l4, l5, a;
-
-	var rightOffset = window.innerWidth/2;
-	
+	// upper left
 	if(quadrant == '1'){
 		d1 = 'M ' + left + ' ' + top;
 		l1 = ' l ' + 0 + ' ' + bottom;
@@ -385,6 +498,7 @@ function initDescriptionBorders(quadrant){
 		d4 = 'M ' + corner3x + ' ' + top;
 		l4 = ' L ' + left + ' ' + top;
 	}
+	// bottom left
 	else if(quadrant == '2'){
 		d1 = 'M ' + left + ' ' + (top + bottom);
 		l1 = ' l ' + 0 + ' ' + -bottom;
@@ -401,6 +515,7 @@ function initDescriptionBorders(quadrant){
 		d4 = 'M ' + corner3x + ' ' + (bottom + top);
 		l4 = ' L ' + left + ' ' + (bottom + top);
 	}
+	// bottom right
 	else if(quadrant == '3'){
 		d1 = 'M ' + (rightOffset - left) + ' ' + (top + bottom);
 		l1 = ' l ' + 0 + ' ' + -bottom;
@@ -417,6 +532,7 @@ function initDescriptionBorders(quadrant){
 		d4 = 'M ' + (rightOffset - corner3x) + ' ' + (bottom + top);
 		l4 = ' L ' + (rightOffset - left) + ' ' + (bottom + top);
 	}
+	// upper right
 	else if(quadrant == '4'){
 		d1 = 'M ' + (rightOffset - left) + ' ' + top;
 		l1 = ' l ' + 0 + ' ' + bottom;
@@ -433,6 +549,7 @@ function initDescriptionBorders(quadrant){
 		d4 = 'M ' + (rightOffset - corner3x) + ' ' + top;
 		l4 = ' L ' + (rightOffset - left) + ' ' + top;
 	}
+	// description box when window width is small enough
 	else if(quadrant == '5'){
 		rightOffset = 450;
 		d1 = 'M ' + left + ' ' + top;
@@ -450,17 +567,58 @@ function initDescriptionBorders(quadrant){
 		da = '';
 		a = '';
 	}
+	// description box for the images when city is selected
+	else if(quadrant == '6'){
+		borderPadding = 1;
+		width = parseInt($('#des6imagebody').css('width'));
+		height = parseInt($('#des6imagebody').css('height'));
+		left = borderPadding;
+		top = borderPadding;
+		bottom = height - borderPadding;
+		right = width - borderPadding;
+		
+		d1 = 'M ' + left + ' ' + top;
+		l1 = ' L ' + left + ' ' + bottom;
+		
+		d2 = 'M ' + left + ' ' + bottom;
+		l2 = ' L ' + right + ' ' + bottom;
+		
+		d3 = 'M ' + right + ' ' + bottom;
+		l3 = ' L ' + right + ' ' + top;
+		
+		d4 = 'M ' + right + ' ' + top;
+		l4 = ' L ' + left + ' ' + top;
+		
+		da = '';
+		a = '';
+		
+		d5 = 'M ' + (left + 30) + ' ' + 1;
+		l5 = ' L ' + (right - 30) + ' ' + 1;
+	}
 	
 	body += d1 + l1 + l2 + a + l3 + l4;
 
-	description.des1.obj.setAttribute('d', d1 + l1);
-	description.des2.obj.setAttribute('d', d2 + l2);
-	description.desa.obj.setAttribute('d', da + a);
-	description.des3.obj.setAttribute('d', d3 + l3);
-	description.des4.obj.setAttribute('d', d4 + l4);
-	description.des5.obj.setAttribute('d', d5 + l5);
-	description.desback.obj.setAttribute('d', body);
+	description = descriptions[quadrant];
+	
+	description.des1.dom.setAttribute('d', d1 + l1);
+	description.des2.dom.setAttribute('d', d2 + l2);
+	description.desa.dom.setAttribute('d', da + a);
+	description.des3.dom.setAttribute('d', d3 + l3);
+	description.des4.dom.setAttribute('d', d4 + l4);
+	description.des5.dom.setAttribute('d', d5 + l5);
+	description.desback.dom.setAttribute('d', body);
 
+	for(var dom in description){
+		
+		if(description[dom].type == 'svgborder' || description[dom].type == 'svginlet'){
+			description[dom].dom.style.fill = 'none';
+			description[dom].dom.style.stroke = strokeColor;
+			description[dom].dom.style.strokeWidth = strokeWidth;
+		}
+		else if(description[dom].type == 'svgbackground'){
+			description[dom].dom.style.fill = fillColor;
+		}
+	}
 }
 
 // help from https://jakearchibald.com/2013/animated-line-drawing-svg/
@@ -477,23 +635,24 @@ function setDescriptionAnimations(){
 		for(var i in description){
 			
 			if(description[i].type == 'svgbackground'){
-				obj = description[i].obj;
-				obj.style.opacity = '0';
+				dom = description[i].dom;
+				dom.style.opacity = '0';
+
+				dom.style.transition = 'opacity 0.5s ease-in-out';
 				
-				obj.style.transition = 'opacity 0.5s ease-in-out';
 			}
 			else if(description[i].type == 'svgborder'){
 			
-				obj = description[i].obj;
+				dom = description[i].dom;
 
-				length = obj.getTotalLength();
+				length = dom.getTotalLength();
 			
-				obj.style.strokeDasharray = length + ' ' + length;
-				obj.style.strokeDashoffset = description[i].sdo = length;
+				dom.style.strokeDasharray = length + ' ' + length;
+				dom.style.strokeDashoffset = description[i].sdo = length;
 				
-				obj.getBoundingClientRect();
+				dom.getBoundingClientRect();
 
-				obj.style.transition = 'stroke-dashoffset 0.5s ease-in-out';
+				dom.style.transition = 'stroke-dashoffset 0.5s ease-in-out';
 			}
 		}
 	}
@@ -503,7 +662,7 @@ function setDescriptionAnimations(){
 function initDescriptions(){
 	var des1, des2, desa, des3, des4, des5, desa, desback, desbody;
 	
-	for(var quadrant = 1; quadrant <= 5; quadrant++){
+	for(var quadrant = 1; quadrant <= 6; quadrant++){
 		des1 = document.getElementById('des' + quadrant + '1');
 		des2 = document.getElementById('des' + quadrant + '2');
 		desa = document.getElementById('des' + quadrant + 'a');
@@ -515,41 +674,41 @@ function initDescriptions(){
 
 		var description = {
 			des1: {
-				obj: des1,
+				dom: des1,
 				sdo: des1.style.strokeDashoffset,
 				type: 'svgborder'
 			},
 			des2: {
-				obj: des2,
+				dom: des2,
 				sdo: des2.style.strokeDashoffset,
 				type: 'svgborder'
 			},
 			des3: {
-				obj: des3,
+				dom: des3,
 				sdo: des3.style.strokeDashoffset,
 				type: 'svgborder'
 			},
 			des4: {
-				obj: des4,
+				dom: des4,
 				sdo: des4.style.strokeDashoffset,
 				type: 'svgborder'
 			},
 			desa: {
-				obj: desa,
+				dom: desa,
 				sdo: desa.style.strokeDashoffset,
 				type: 'svgborder'
 			},
 			des5: {
-				obj: des5,
+				dom: des5,
 				sdo: des5.style.strokeDashoffset,
 				type: 'svginlet'
 			},
 			desback: {
-				obj: desback,
+				dom: desback,
 				type: 'svgbackground'
 			},
 			desbody: {
-				obj: desbody,
+				dom: desbody,
 				type: 'htmlbody'
 			}
 		};
@@ -559,93 +718,125 @@ function initDescriptions(){
 }
 
 
-function descriptionShow(show, event){
+function descriptionShow(show, click, includesvg, event){
 	
 	var quadrant = false;
 	var target = event.target.id;
 	var num = parseInt(target.charAt(target.length-1));
-	var city;
+	var key, text, title;
 	var up;
+	
 
 	switch(num){
 		case 1:
 			quadrant = 4;
-			city = cities.miami;
+			key = 'miami'
 			up = '0px';
 		break;
 		
 		case 2:
 			quadrant = 3;
-			city = cities.dallas;
+			key = 'dallas';
 			up = '0px';
 		break;
 		
 		case 3:
 			quadrant = 1;
-			city = cities.sanfrancisco;
+			key = 'sanfrancisco';
 			up = '0px';
 		break;
 		
 		case 4:
 			quadrant = 2;
-			city = cities.seattle;
+			key = 'seattle';
 			up = '50%';
 		break;
 		
 		case 5:
 			quadrant = 1;
-			city = cities.chicago;
+			key = 'chicago';
 			up = '50%';
 		break;
 		
 		case 6:
 			quadrant = 3;
-			city = cities.newyork;
+			key = 'newyork';
 			up = '50%';
 		break;
 	}
 	
-	if(window.innerWidth < 1000 || (window.innerWidth < 1200 && isFirefox)){
+	city = cities[key];
+	
+	if(click){
+		quadrant = 6;
+		
+		$('.segment').css('pointerEvents', 'none');
+		
+		$('.segment')
+		.css({
+			pointerEvents: 'none',
+			opacity: 0.1
+		});
+		
+		if(show){
+			$('#thumb1').css('background-image', 'url(\'src/images/' + key + '.jpg\')');
+			$('#thumb2').css('background-image', 'url(\'src/images/' + key + '1.jpg\')');
+			$('#thumb3').css('background-image', 'url(\'src/images/' + key + '2.jpg\')');
+			$('#thumb4').css('background-image', 'url(\'src/images/' + key + '3.jpg\')');
+		}
+
+	}
+	else if(window.innerWidth < 1000 || (window.innerWidth < 1200 && isFirefox)){
 		quadrant = 5;
 		$('#descont5').css('top', up);
 		$('#quadrant5').css('top', up);
 	}
 
-	$('#title' + quadrant).text(city.title)
-	$('#text' + quadrant).text(city.text)
-	$('#incorp' + quadrant).text(city.date)
-	$('#pop' + quadrant).text(city.pop)
-	
-	var panel = descriptions[quadrant];
+	if(show){
+		title = quadrant == 6 ? city.title2 : city.title;
+		text = quadrant == 6 ? city.text2 : city.text;
 		
-	var type, obj;
+		$('#title' + quadrant).text(title)
+		$('#text' + quadrant).text(text)
+		$('#incorp' + quadrant).text(city.date)
+		$('#pop' + quadrant).text(city.pop)
+	}
+
+	if(includesvg){
+		showSvg(descriptions[quadrant], show);
+	}
+}
+
+// function to show or hide borders
+function showSvg(panel, show){
+	var type, dom;
 	
 	if(panel){
 		for(var des in panel){
 		
 			type = panel[des].type;
-			obj = panel[des].obj;
+			dom = panel[des].dom;
 			
 			if(show){
 				if(type == 'svgbackground'){
-					obj.style.opacity = '0.4';
+					dom.style.opacity = backgroundOpacity;
 				}
 				else if(type == 'svgborder'){
-					obj.style.strokeDashoffset = '0';
+					dom.style.strokeDashoffset = '0';
 				}
 				else if(type == 'htmlbody'){
-					$(obj).addClass('show');
+					$(dom).addClass('show');
 				}
 			}
 			else{
 				if(type == 'svgbackground'){
-					obj.style.opacity = '0';
+					dom.style.opacity = '0';
 				}
 				else if(type == 'svgborder'){
-					obj.style.strokeDashoffset = panel[des].sdo;
+					dom.style.strokeDashoffset = panel[des].sdo;
 				}
 				else if(type == 'htmlbody'){
-					$(obj).removeClass('show');
+					$(dom).removeClass('show');
 				}
 			}
 		}
@@ -666,7 +857,9 @@ function formRadialCircle(obj, startx, starty, lx, ly, x, y, radius, xaxis, larg
 	' l ' + lx + ' ' + ly +
 	' a ' + radius + ' ' + radius + ' ' + xaxis + ' ' + largearc + ' ' + sweep + ' ' + x + ' ' + y + ' z';
 	
-	obj.setAttribute('d', d);
+	if(obj){
+		obj.setAttribute('d', d);
+	}
 }
 
 function easing(progress, max){

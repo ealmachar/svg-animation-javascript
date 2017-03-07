@@ -16,9 +16,33 @@ html{
 }
 
 .background{
-
-	transition: opacity 0.5s
+	transition: opacity 0.5s;
 }
+
+.segment{
+	transition: opacity 0.5s;
+}
+
+.segment:hover{
+	cursor: pointer;
+}
+
+
+
+
+
+
+
+/*
+
+//
+//
+// quadrant description panels
+//
+//
+
+*/
+
 
 .quadrant{
 	position: absolute;
@@ -27,8 +51,6 @@ html{
 	height: 50%;
 
 	pointer-events: none;
-	
-	transition: width 0.5s, height 0.5s;
 }
 
 #quadrant1{
@@ -57,6 +79,17 @@ html{
 	margin: auto;
 	transition: top 0.25s;
 }
+
+#quadrant6{
+	position: absolute;
+	
+	width: 100%;
+	height: 100%;
+	
+	top: 0px;
+	left: 0px;
+}
+
 
 .descriptionContainer{
 	position: absolute;
@@ -99,6 +132,22 @@ html{
 	transition: top 0.25s;
 }
 
+#descont6{
+	position: absolute;
+	top: 0px;
+	left: 50%;
+	height: 100%;
+	width: 50%;
+	
+	font-family: 'Roboto', sans-serif;
+	pointer-events: none;
+		
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+
 .descriptionBody{
 	position: relative;
 
@@ -108,7 +157,6 @@ html{
 
 	padding: 60px 0px 0px 60px;
 	
-
 	opacity: 0;
 	
 	transition: top 0.25s, opacity 0.25s;
@@ -119,19 +167,6 @@ html{
 	top: 0px;
 }
 
-.descriptionTitle{
-	font-size: 20px;
-	padding-bottom: 40px;
-}
-
-
-
-.descriptionInBodyLine{
-	height: 10px;
-	width: 100%;
-	position: absolute;
-	top: 100px;
-}
 
 table{
 	margin-top: 25px;
@@ -148,6 +183,228 @@ td{
 	background-color: lightgray;
 	opacity: 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+//
+//
+// exhibit description panel
+//
+//
+
+*/
+
+
+#desbody6{
+	position: relative;
+	
+	width: 0px;
+	height: 0px;
+	
+	
+	padding: 40px;
+	
+	border-style: solid;
+    border-color: white;
+	border-width: 2px;
+	
+	opacity: 0;
+	
+	transition-timing-function: linear;
+	transition: width 0.5s, height 0.5s, opacity 0.5s;
+}
+
+#desbody6.phase1{
+	width: 80%;
+	opacity: 1;
+	
+	pointer-events: auto;
+}
+
+#desbody6.phase2{
+	height: 60%;
+}
+
+#xbutton{
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	
+	height: 24px;
+	width: 24px;
+	
+	color: white;
+	cursor: pointer;
+}
+
+#title6{
+	width: 100%;
+	
+	font-size: 20px;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+	
+	border-bottom: 2px solid white;
+}
+
+#desbody6container{
+	opacity: 0;
+	padding-top: 60px;
+	
+	transition: opacity 0.5s, padding-top 0.5s;
+}
+
+#desbody6container.phase3{
+	padding-top: 20px;
+	opacity: 1;
+}
+
+
+
+
+
+
+
+/*
+
+//
+//
+// image gallery panel
+//
+//
+
+*/
+
+#des6imagecontainer{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	
+	width: 50%;
+	height: 100%;
+	
+	pointer-events: none;
+	
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#des6imagebody{
+	position: relative;
+	left: 10%;
+	
+	width: 90%;
+	height: 60%;
+	
+	transition: left 0.5s, width 0.5s;
+}
+
+#des6imagebody.phase3{
+	left: 0px;
+}
+
+#des6imagebodycontents{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	
+	width: 100%;
+	height: 100%;
+	
+	opacity: 0;
+	transition: opacity 0.5s;
+}
+
+#des6imagebodycontents.phase3{
+	pointer-events: auto;
+	opacity: 1;
+}
+
+#des6imageshowcontainer{
+	width: 100%;
+	height: calc(100% - 100px);
+	
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#des6imagedisplay{
+	width: 95%;
+	height: 95%;
+	
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+#des6imageline{
+	position: absolute;
+	bottom: 100px;
+	width: 100%;
+	height: 2px;
+	opacity: 0;
+}
+
+#des6imageslider{
+	position: absolute;
+	bottom: 0px;
+	width: calc(100% - 20px);
+	height: 80px;
+	margin: 10px;
+	
+	display: flex;
+	justify-content: center;
+	
+	background-color: rgba(255, 255, 255, .5);
+}
+
+.thumb{
+	position: relative;
+	top: 0px;
+	height: 80px;
+	width: 80px;
+	background-size: cover;
+	background-position: center;
+	
+	transition: width 0.25s, height 0.25s, top 0.25s;
+}
+
+.descriptionTitle{
+	font-size: 20px;
+	padding-bottom: 40px;
+}
+
+
+
+.descriptionInBodyLine{
+	height: 10px;
+	width: 100%;
+	position: absolute;
+	top: 100px;
+}
+
+/*
+
+//
+//
+// blocks for quadrant description line slant
+//
+//
+
+*/
 
 #block1{
 	float: right;
