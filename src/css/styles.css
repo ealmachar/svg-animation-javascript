@@ -6,7 +6,7 @@
 
 body{
 	margin: 0px;
-	background-color: grey;
+	background-color: rgba(122, 128, 138, 1);
 	height: 100%;
 	width: 100%;
 }
@@ -205,6 +205,18 @@ td{
 
 */
 
+#desbody6container{
+	opacity: 0;
+	padding-top: 40px;
+	
+	transition: opacity 0.5s, padding-top 0.5s;
+}
+
+#desbody6container.phase3{
+	padding-top: 0px;
+	opacity: 1;
+}
+
 
 #desbody6{
 	position: relative;
@@ -258,17 +270,7 @@ td{
 	border-bottom: 2px solid white;
 }
 
-#desbody6container{
-	opacity: 0;
-	padding-top: 60px;
-	
-	transition: opacity 0.5s, padding-top 0.5s;
-}
 
-#desbody6container.phase3{
-	padding-top: 20px;
-	opacity: 1;
-}
 
 
 

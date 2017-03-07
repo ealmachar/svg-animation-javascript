@@ -61,13 +61,11 @@ function init(){
 	initDescriptionBorders('4');
 	initDescriptionBorders('5');
 	initDescriptionBorders('6');
+	setDescriptionAnimations();
 }
 
-window.onready = function(){
-	setDescriptionAnimations();
-//	setTimeout(function(){
-	$('#screen').css('opacity', 0);
-//	}, 1000);
+window.onload = function(){
+	init();
 }
 
 window.onresize = function(){
@@ -382,7 +380,7 @@ function anim(event, method){
 			segments[target-1].anim = method;
 
 		}
-		else if(segments[target-1].anim != method &&segments[target-1].anim != null){
+		else if(segments[target-1].anim != method && segments[target-1].anim != null){
 			clearInterval(interval);
 		}
 
@@ -877,5 +875,3 @@ function calcLargearc(phi, theta){
 	var result = difference(phi, theta) < Math.PI ? 1 : 0;
 	return result;
 }
-
-init();
