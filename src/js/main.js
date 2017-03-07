@@ -218,7 +218,7 @@ function setSizes(){
 
 function hideTables(){
 
-	if(window.innerWidth < 1200 || (window.innerWidth < 1400 && isFirefox)){
+	if(window.innerWidth < 1300 || (window.innerWidth < 1500 && isFirefox)){
 		tables.hide();
 	}
 	else{
