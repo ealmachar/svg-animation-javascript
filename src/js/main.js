@@ -796,10 +796,10 @@ function descriptionShow(show, click, includesvg, event){
 		title = quadrant == 6 ? city.title2 : city.title;
 		text = quadrant == 6 ? city.text2 : city.text;
 		
-		$('#title' + quadrant).text(title)
-		$('#text' + quadrant).text(text)
-		$('#incorp' + quadrant).text(city.date)
-		$('#pop' + quadrant).text(city.pop)
+		$('#title' + quadrant).text(title);
+		$('#text' + quadrant).html(text);
+		$('#incorp' + quadrant).text(city.date);
+		$('#pop' + quadrant).text(city.pop);
 	}
 
 	if(includesvg){
