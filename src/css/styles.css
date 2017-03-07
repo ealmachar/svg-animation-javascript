@@ -135,9 +135,9 @@ html{
 #descont6{
 	position: absolute;
 	top: 0px;
-	left: 50%;
+	left: 60%;
 	height: 100%;
-	width: 50%;
+	width: 40%;
 	
 	font-family: 'Roboto', sans-serif;
 	pointer-events: none;
@@ -207,13 +207,14 @@ td{
 
 #desbody6container{
 	opacity: 0;
-	padding-top: 40px;
+	margin: 80px 40px 40px 40px;
+	text-align: justify;
 	
-	transition: opacity 0.5s, padding-top 0.5s;
+	transition: opacity 0.5s, margin-top 0.5s;
 }
 
 #desbody6container.phase3{
-	padding-top: 0px;
+	margin-top: 40px;
 	opacity: 1;
 }
 
@@ -225,7 +226,7 @@ td{
 	height: 0px;
 	
 	
-	padding: 40px;
+	overflow: hidden;
 	
 	border-style: solid;
     border-color: white;
@@ -238,14 +239,14 @@ td{
 }
 
 #desbody6.phase1{
-	width: 80%;
+	width: 90%;
 	opacity: 1;
 	
 	pointer-events: auto;
 }
 
 #desbody6.phase2{
-	height: 60%;
+	height: calc(70% - 2px);
 }
 
 #xbutton{
@@ -293,7 +294,7 @@ td{
 	top: 0px;
 	left: 0px;
 	
-	width: 50%;
+	width: 60%;
 	height: 100%;
 	
 	pointer-events: none;
@@ -308,7 +309,7 @@ td{
 	left: 10%;
 	
 	width: 90%;
-	height: 60%;
+	height: 70%;
 	
 	transition: left 0.5s, width 0.5s;
 }
