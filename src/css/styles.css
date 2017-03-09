@@ -205,20 +205,6 @@ td{
 
 */
 
-#desbody6container{
-	opacity: 0;
-	margin: 80px 40px 40px 40px;
-	text-align: justify;
-	
-	transition: opacity 0.5s, margin-top 0.5s;
-}
-
-#desbody6container.phase3{
-	margin-top: 40px;
-	opacity: 1;
-}
-
-
 #desbody6{
 	position: relative;
 	
@@ -234,6 +220,8 @@ td{
 	
 	opacity: 0;
 	
+	box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.15), 6px 6px 20px 0 rgba(0, 0, 0, 0.14);
+	
 	transition-timing-function: linear;
 	transition: width 0.5s, height 0.5s, opacity 0.5s;
 }
@@ -248,6 +236,21 @@ td{
 #desbody6.phase2{
 	height: calc(70% - 2px);
 }
+
+
+#desbody6container{
+	opacity: 0;
+	margin: 80px 40px 40px 40px;
+	text-align: justify;
+	
+	transition: opacity 0.5s, margin-top 0.5s;
+}
+
+#desbody6container.phase3{
+	margin-top: 40px;
+	opacity: 1;
+}
+
 
 #xbutton{
 	position: absolute;
@@ -331,6 +334,9 @@ td{
 }
 
 #des6imagebodycontents.phase3{
+	
+	box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, 0.15), 6px 6px 20px 0 rgba(0, 0, 0, 0.14);
+	
 	pointer-events: auto;
 	opacity: 1;
 }
